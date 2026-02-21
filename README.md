@@ -9,8 +9,11 @@ Desenvolvidos como material de apoio ao curso **Dev com IA**, usando Laravel/PHP
 | Agente | Invocação | O que faz |
 |---|---|---|
 | `biblioteca` | `use o agente biblioteca` | Gerencia catálogo de livros via API REST, com busca automática de metadados na Open Library |
-| `code-reviewer` | `use o agente code-reviewer` | Auditoria de código com checklist OWASP Top 10, severidade (CRITICAL/HIGH/MEDIUM/LOW) e relatório formatado |
+| `code-reviewer` | `use o agente code-reviewer` | Checklist básico de segurança e qualidade: SQL injection, XSS, secrets, N+1, memory leaks |
+| `code-reviewer-better` | `use o agente code-reviewer` | Fluxo completo com OWASP Top 10, critérios de severidade (CRITICAL/HIGH/MEDIUM/LOW) e relatório estruturado |
 | `migration-expert` | `use o agente migration-expert` | Cria e revisa migrations Laravel com boas práticas de schema, indexes e reversibilidade |
+
+> **Atenção:** `code-reviewer.md` e `code-reviewer-better.md` têm o mesmo `name` no frontmatter. Mantenha apenas um deles no diretório `.claude/agents/` — caso contrário o comportamento é indefinido.
 
 ## Instalação
 
