@@ -1,109 +1,75 @@
 # code-agents
 
-Repositório com exemplos de subagentes customizados para o **Claude Code CLI**. Cada agente é definido como um arquivo Markdown com um system prompt especializado e configurações de ferramentas.
+Coleção de subagentes para Claude Code.
 
-## O que são subagentes no Claude Code?
-
-Subagentes são especialistas que o Claude Code pode invocar para tarefas específicas. Cada um tem:
-
-- Um **system prompt** focado em um domínio
-- Um conjunto limitado de **ferramentas** (Bash, Read, Grep, etc.)
-- Um **modelo** configurado (sonnet, haiku, opus)
-- Um limite de turnos (`maxTurns`) para controlar o custo
-
-O fluxo básico de um agente é: **raciocinar → executar ferramenta → observar resultado → raciocinar novamente**.
+Desenvolvidos como material de apoio ao curso **Dev com IA**, usando Laravel/PHP como base — mas aplicáveis a qualquer stack.
 
 ## Agentes disponíveis
 
-### `biblioteca/`
+| Agente | Invocação | O que faz |
+|---|---|---|
+| `biblioteca` | `use o agente biblioteca` | Gerencia catálogo de livros via API REST, com busca automática de metadados na Open Library |
+| `code-reviewer` | `use o agente code-reviewer` | Auditoria de código com checklist OWASP Top 10, severidade (CRITICAL/HIGH/MEDIUM/LOW) e relatório formatado |
+| `migration-expert` | `use o agente migration-expert` | Cria e revisa migrations Laravel com boas práticas de schema, indexes e reversibilidade |
 
-Gerencia um catálogo de livros via API REST local (Laravel). Busca automaticamente metadados na [Open Library](https://openlibrary.org/) quando os dados estão incompletos.
+## Instalação
 
-**Ferramentas:** `Bash`, `WebFetch`
-
-Operações suportadas:
-- Listar, buscar, criar, atualizar e remover livros
-- Validar ISBN, ano de publicação e editora
-- Formatar respostas em tabelas Markdown
-
-**Pré-requisito:** Servidor Laravel rodando em `http://localhost:8000`
-
----
-
-### `code-reviewer/`
-
-Revisa código em busca de problemas de segurança, qualidade e performance. Disponível em duas versões:
-
-| Arquivo | Descrição |
-|---------|-----------|
-| `code-reviewer.md` | Versão simples com checklist básico |
-| `code-reviewer-better.md` | Versão completa com OWASP Top 10, severidade (CRITICAL/HIGH/MEDIUM/LOW) e relatório formatado |
-
-**Ferramentas:** `Read`, `Grep`, `Glob`, `Bash`
-
----
-
-### `migration-expert/`
-
-Cria e revisa migrations Laravel seguindo boas práticas: naming convention, indexes, foreign key constraints com `onDelete`/`onUpdate`, método `down()` reversível e separação de schema vs dados.
-
-**Ferramentas:** `Read`, `Write`, `Bash`
-
----
-
-## Como usar
-
-Os arquivos `.md` de cada agente devem ser copiados para o diretório de agentes do Claude Code:
+Clone este repositório dentro do seu projeto:
 
 ```bash
-# Diretório padrão de agentes
-~/.claude/agents/
-
-# Exemplo
-cp biblioteca/biblioteca.md ~/.claude/agents/biblioteca.md
+cd seu-projeto
+git clone git@github-curso:maisquedev/code-agents.git .claude/agents
 ```
 
-Após isso, invoque o agente no Claude Code:
+Ou como submódulo Git, para manter atualizações:
 
-```
-Use o subagente biblioteca para listar todos os livros cadastrados
-```
-
-```
-Use o agente code-reviewer para analisar segurança em app/Controllers/AuthController.php
+```bash
+git submodule add git@github-curso:maisquedev/code-agents.git .claude/agents
 ```
 
-```
-Use o migration-expert para criar uma migration para a tabela de comentários
-```
-
-## Estrutura do projeto
+## Estrutura
 
 ```
-agents/
-├── biblioteca/
-│   └── biblioteca.md           # Agente gerenciador de catálogo de livros
-├── code-reviewer/
-│   ├── code-reviewer.md        # Code reviewer versão simples
-│   └── code-reviewer-better.md # Code reviewer versão completa
-├── migration-expert/
-│   └── migration-expert.md     # Especialista em migrations Laravel
-├── exemplo-biblioteca.md       # Exemplo detalhado de uso do agente biblioteca
-└── texto-para-CLAUDE.md        # Guia de transparência ao usar múltiplos subagentes
+.claude/agents/
+├── biblioteca.md
+├── code-reviewer.md
+├── code-reviewer-better.md
+├── migration-expert.md
+└── docs/
+    ├── exemplo-biblioteca.md
+    └── texto-para-CLAUDE.md
 ```
 
-## Formato de um agente
+## Transparência de subagentes
 
-Todo agente começa com um frontmatter YAML seguido do system prompt:
+O arquivo `docs/texto-para-CLAUDE.md` é um trecho para adicionar ao `CLAUDE.md` do seu projeto. Ele instrui o Claude a exibir um relatório sempre que subagentes forem utilizados, mostrando quais foram invocados, quais arquivos acessaram e se rodaram em paralelo.
 
-```markdown
----
-name: nome-do-agente
-description: Quando e como este agente deve ser invocado
-tools: Bash, Read, Grep
-model: sonnet
-maxTurns: 10
+Para ativar, copie o conteúdo do arquivo para o `CLAUDE.md` na raiz do seu projeto:
+
+```bash
+cat .claude/agents/docs/texto-para-CLAUDE.md >> CLAUDE.md
+```
+
+## Links úteis
+
+**Subagentes no Claude Code**
+- [Build with Claude Code — Subagents](https://docs.anthropic.com/pt/docs/claude-code/sub-agents)
+
+**Frontmatter YAML**
+- [YAML front matter — Assemble](https://assemble.io/docs/YAML-front-matter.html)
+- [Front Matter — Jekyll](https://jekyllrb.com/docs/front-matter/)
+- [Usar front matter YAML — GitHub Docs](https://docs.github.com/pt/contributing/writing-for-github-docs/using-yaml-frontmatter)
+
 ---
 
-[System prompt do agente]
-```
+## Sobre este repositório
+
+Este repositório é parte do curso **Dev com IA** — um curso prático para desenvolvedores que querem usar inteligência artificial no dia a dia do trabalho, de verdade, sem enrolação.
+
+Você aprende a criar seus próprios agentes, automatizar tarefas repetitivas e escrever código melhor e mais rápido com a ajuda do Claude Code — usando Laravel como exemplo, mas com conceitos que funcionam em qualquer linguagem.
+
+🔗 **[Saiba mais em dev-com-ia.sim10.com](https://dev-com-ia.sim10.com/)**
+
+---
+
+Licença MIT
